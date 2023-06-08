@@ -1,0 +1,22 @@
+today !!!!!!
+ask hashen for סיעתא דשמעיה in my work
+learn for 15 minutes how to send email on jwt and genarate code 
+STARTED 10:54
+have a clear plan of what to do and write it here come back in 15 minutes no matter were your
+"its 19 minutes"
+PLAN 
+TASK COMPLETED when user logs in return email verification//needs to involve email in code ||asuming to verify who sined in :in userauth service alled by login
+
+
+20 minutes till 3:19 pm
+
+user logs in returns verify email
+user sends verify email
+it calls function to return user which calls to decode and find user and update db and then returns generated token
+
+code reviw 20 minutes
+
+check typorm doc how to connect to tables 15 minutes
+try to get sql on terminal 5 minutes
+5 minutes 10:36 20 min:
+view typorm video of relations
