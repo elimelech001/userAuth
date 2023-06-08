@@ -69,3 +69,24 @@ To stop the application, use the following command:
     ```
 
 Please ensure Docker and Docker Compose are installed on your machine before running these commands.
+
+## Environment Variables
+
+This application uses environment variables for configuration. Create a `.env` file in the root of the project and add the following key-value pairs:
+
+```env and dockerenv
+JWT_SECRET=<your-jwt-secret-key>
+EMAIL_HOST=<your-email-host>
+EMAIL_PORT=<your-email-port>
+EMAIL_SECURE=<true-or-false>
+EMAIL_USER=<your-email-username>
+EMAIL_PASSWORD=<your-email-password>
+DB_TYPE=<your-db-type>
+DB_HOST=<your-db-host>
+DB_PORT=<your-db-port>
+DB_USERNAME=<your-db-username>
+DB_DATABASE=<your-db-database>
+DB_PASSWORD=<your-db-password>
+POSTGRES_USER=<your-postgres-user>
+POSTGRES_PASSWORD=<your-postgres-password>
+POSTGRES_DB=<your-postgres-db>
