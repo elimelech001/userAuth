@@ -1,9 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, ManyToOne, OneToOne, JoinColumn } from "typeorm"
 import * as bcrypt from 'bcrypt';
 import { Address } from "./address.entity";
+import { UserRoles } from '../user.enum';
+
 @Entity()
 export class User {
-  
+
   @PrimaryGeneratedColumn()
   id: number
 
@@ -30,13 +32,18 @@ export class User {
 
   @Column({ default: false })
   isVerified: boolean;
-  
+
   @Column({ default: null })
   verificationDate: Date;
- 
-  @OneToOne(() => Address, address => address.user)
+
+  @Column({ type: 'enum', enum: UserRoles, default: UserRoles.MEMBER })
+  role: UserRoles;
+
+
+  @OneToOne(() => Address, address => address.user, { nullable: true })
   @JoinColumn()
-  address: Address;
+  address: Address | null;
+
 
   @BeforeInsert()
   async setPassword(password: string) {

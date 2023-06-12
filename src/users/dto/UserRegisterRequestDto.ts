@@ -29,7 +29,6 @@ export class UsersRequest {
     @IsNotEmpty()
     phoneNumber: string
 
-    @IsNotEmpty()
     address:AddressDto
     
 }

@@ -74,8 +74,9 @@ Please ensure Docker and Docker Compose are installed on your machine before run
 
 This application uses environment variables for configuration. Create a `.env` file in the root of the project and add the following key-value pairs:
 
-```env and dockerenv
-JWT_SECRET=<your-jwt-secret-key>
+env and dockerenv
+```
+APP_SECRET=<your-jwt-secret-key>
 EMAIL_HOST=<your-email-host>
 EMAIL_PORT=<your-email-port>
 EMAIL_SECURE=<true-or-false>

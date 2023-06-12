@@ -3,10 +3,10 @@ import { UsersRequest } from '../dto/UserRegisterRequestDto';
 import { User } from '../entitys/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { EncryptionService } from 'src/services/encryption.service';
+import { EncryptionService } from 'src/users/services/encryption.service';
 import { AddressService } from './adress.service';
-import { AuthService } from 'src/auth/services/auth.service';
-
+import { MessagesService } from 'src/shared/messages.service';
+//  fix allow nullebe and errors if skiped something tat allow null is false test in diff methods
 @Injectable()
 export class UsersService {
 
@@ -16,6 +16,7 @@ export class UsersService {
         private readonly userRepository: Repository<User>,
         private encryptionService: EncryptionService,
         private addressService: AddressService,
+        private messagesService: MessagesService,
 
     ) { }
 
@@ -27,10 +28,12 @@ export class UsersService {
             this.encryptUserData(user)
 
             const newUser = this.userRepository.create(user);
+            if (address) {
+                const newAddress = await this.addressService.createAddress(address);
+                newUser.address = newAddress;
+                await this.userRepository.save(newUser);
+            }
 
-            const newAddress = await this.addressService.createAddress(address);
-            newUser.address = newAddress;
-            await this.userRepository.save(newUser);
             return newUser;
         } catch (error) {
             if (error.code === '23505') {
@@ -39,6 +42,8 @@ export class UsersService {
             throw error;
         }
     }
+
+
 
     private encryptUserData(user: Partial<User>) {
         user.email = this.encryptionService.encryptField(user.email)
@@ -64,30 +69,28 @@ export class UsersService {
         }
     }
     async getUserByUsername(username: string): Promise<User> {
+        // todo what to add in username to check how to incryped and find data
+        const emaill = this.encryptionService.encryptField('jjokdgghf@example.com')
         try {
-            const user = await this.userRepository.findOne({ where: { username } });
+            const user = await this.userRepository.findOne({ where: {username}});
+            console.log('email an cryption = email encryption',user.email==emaill);
 
             if (!user) {
-                throw new NotFoundException('User not found');
+                throw new NotFoundException(this.messagesService.getMessage('USER_NOT_FOUND'));
             }
-
             return user;
         } catch (error) {
             throw error;
 
         }
     }
-    async getUserByEmail(email: string): Promise<User> {
+    async getUserById(id: number) {
         try {
-            email = this.encryptionService.encryptField(email)
-            console.log(email);
-
-            const user = await this.userRepository.findOne({ where: { email } });
+            const user = await this.userRepository.findOne({ where: { id } });
 
             if (!user) {
-                throw new NotFoundException('User not found');
+                throw new NotFoundException(this.messagesService.getMessage('USER_NOT_FOUND'));
             }
-
             return user;
         } catch (error) {
             throw error;
@@ -95,46 +98,33 @@ export class UsersService {
         }
     }
 
-    async findUserWithAddress(username: string): Promise<User> {
 
-        const user = await this.userRepository.findOne({ where: { username }, relations: ['address'] });
+    async getUserWithAddressById(id: number): Promise<User> {
+
+        const user = await this.userRepository.findOne({ where: { id }, relations: ['address'] });
 
         if (!user) {
-            throw new NotFoundException('Address not found for the user');
+            throw new NotFoundException(this.messagesService.getMessage('USER_NOT_FOUND'));
         }
 
         return user;
     }
 
 
-    async extractAndDecryptUserData(username: string): Promise<User> {
-        const user = await this.findUserWithAddress(username);
+    async extractAndDecryptUserData(id: number): Promise<User> {
+        const user = await this.getUserWithAddressById(id);
 
-        if (user.password) {
-            delete user.password;
-        }
+
+        delete user.password;
         delete user.verificationDate
         delete user.isVerified
+        delete user.role
 
-        if (user.phoneNumber) {
-            user.phoneNumber = this.encryptionService.decryptField(user.phoneNumber);
-        }
 
-        if (user.email) {
-            user.email = this.encryptionService.decryptField(user.email);
-        }
+        user.phoneNumber = this.encryptionService.decryptField(user.phoneNumber);
+        user.email = this.encryptionService.decryptField(user.email);
 
-        if (user.address) {
-            if (user.address.city) {
-                user.address.city = this.encryptionService.decryptField(user.address.city);
-            }
-            if (user.address.country) {
-                user.address.country = this.encryptionService.decryptField(user.address.country);
-            }
-            if (user.address.street) {
-                user.address.street = this.encryptionService.decryptField(user.address.street);
-            }
-        }
+        this.addressService.decrypedAdressData(user.address);
 
         return user;
     }

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Address } from "../entitys/address.entity";
 import { Repository } from "typeorm";
-import { EncryptionService } from "src/services/encryption.service";
+import { EncryptionService } from "src/users/services/encryption.service";
 import { AddressDto } from "../dto/AddressDto";
 
 @Injectable()
@@ -22,10 +22,21 @@ export class AddressService {
         return newAddresses
     }
 
-    private encryptAdressData(address: Partial<Address>) :void {
-        address.city = this.encryptionService.encryptField(address.city)
-        address.country = this.encryptionService.encryptField(address.country)
-        address.street = this.encryptionService.encryptField(address.street)
+    private encryptAdressData(address: Partial<Address>): void {
+        if (address) {
+            address.city = this.encryptionService.encryptField(address.city)
+            address.country = this.encryptionService.encryptField(address.country)
+            address.street = this.encryptionService.encryptField(address.street)
+        }
+    }
+    public decrypedAdressData(address: Address) {
+        if (address) {
+
+            address.city = this.encryptionService.decryptField(address.city);
+            address.country = this.encryptionService.decryptField(address.country);
+            address.street = this.encryptionService.decryptField(address.street);
+
+        }
     }
 
 }

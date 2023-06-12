@@ -1,8 +1,18 @@
-import { Module } from '@nestjs/common';
+import { EmailTemplateService } from 'src/email/email-template.service';
 import { EmailService } from './email.service';
+import { Module, Global } from '@nestjs/common';
 
+
+@Global()
 @Module({
-    providers: [EmailService],
-    exports: [EmailService], // Export so that other modules can use it
+    providers: [EmailService,EmailTemplateService],
+    exports: [EmailService,EmailTemplateService],
 })
-export class EmailsModule { }
+export class EmailsModule {
+    static forRoot() {
+        return {
+            module: EmailsModule,
+            exports: [EmailService,EmailTemplateService],
+        };
+    }
+}

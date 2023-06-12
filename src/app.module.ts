@@ -6,9 +6,10 @@ import {  typeOrmConfig } from 'config/db.config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { EmailsModule } from './email/email.module';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmConfig) ,UsersModule,AuthModule, EmailsModule],
+  imports: [TypeOrmModule.forRoot(typeOrmConfig) ,UsersModule,AuthModule, EmailsModule,SharedModule],
   controllers: [AppController],
   providers: [AppService],
 })
