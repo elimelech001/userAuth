@@ -10,14 +10,14 @@ import {
   Param,
   Response,
 } from '@nestjs/common';
-import {AuthService} from './services/auth.service';
-import {LocalAuthGuard} from './guards/local-auth.guard';
-import {LoginDTO} from './dto/loginDto';
-import {JwtAuthGuard} from './guards/jwt-auth.guard';
-import {VerificationService} from './services/verification.service';
-import {ApiTags} from '@nestjs/swagger';
-import {Access_token} from './dto/access_tojen.interface';
-import {AuthGuard} from '@nestjs/passport';
+import { AuthService } from './services/auth.service';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { LoginDTO } from './dto/loginDto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { VerificationService } from './services/verification.service';
+import { ApiTags } from '@nestjs/swagger';
+import { Access_token } from './dto/access_tojen.interface';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -25,7 +25,7 @@ export class AuthController {
   constructor(
     private verificationService: VerificationService,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   //fix pipes dont work on login
 
@@ -47,13 +47,12 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  googleLogin() {}
+  googleLogin() { }
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   googleLoginCallback(@Request() req, @Response() res) {
     // handles the Google OAuth2 callback
-    console.log('hello');
 
     const jwt: string = req.user.jwt;
     if (jwt) res.redirect('http://localhost:3000/api/' + jwt);
