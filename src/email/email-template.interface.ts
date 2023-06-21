@@ -1,4 +1,4 @@
 interface EmailTemplate {
-    subject: string;
-    content: string;
-  }
+  subject: string;
+  content: string;
+}

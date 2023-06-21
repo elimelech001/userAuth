@@ -1,5 +1,4 @@
 export interface UserIdentity {
-    id: number;
-    username: string;
-  }
-  
+  id: number;
+  username: string;
+}

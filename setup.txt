@@ -1,4 +1,2 @@
-setup structur
-each user could Post
-save posts in db link to user 
-in db from user -to user -
+בססיעתא דשמעיה
+posts check if works 

@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { AES, enc } from 'crypto-js';
+import {Injectable} from '@nestjs/common';
+import {AES, enc} from 'crypto-js';
 
 @Injectable()
 export class EncryptionService {
@@ -21,5 +21,4 @@ export class EncryptionService {
       return encryptedValue;
     }
   }
-
 }

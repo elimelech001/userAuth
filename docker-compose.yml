@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  app:
+  app1:
     build: .
     command: npm run start:dev
     volumes:
@@ -8,6 +8,18 @@ services:
       - /usr/src/app/node_modules
     ports:
       - 3000:3000
+    depends_on: 
+      - db
+    env_file:
+      - .dockerenv
+  app2:
+    build: .
+    command: npm run start:dev
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3001:3000
     depends_on: 
       - db
     env_file:

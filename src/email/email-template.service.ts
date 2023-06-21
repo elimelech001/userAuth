@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import {Injectable} from '@nestjs/common';
 
 @Injectable()
 export class EmailTemplateService {
   generateVerificationEmail(code: string): EmailTemplate {
     return {
-      subject: "Email Verification",
+      subject: 'Email Verification',
       content: `
         <html>
           <head>
@@ -56,10 +56,4 @@ export class EmailTemplateService {
       `,
     };
   }
-  
-  
-  
-  
-  
-  
 }
