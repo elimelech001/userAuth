@@ -104,6 +104,7 @@ export class PostService {
 
 
   async update(id: number, updatePostDto: UpdatePostDto, userId: number): Promise<any> {
+    //problum costom to return if takes relation 
     const post = await this.postRepository.findOne({ where: { id } ,relations:['user']});
     if (!post) {
       throw new NotFoundException(`Post with ID: ${id} not found.`);

@@ -27,7 +27,6 @@ export class AuthController {
     private authService: AuthService,
   ) { }
 
-  //fix pipes dont work on login
 
   @UsePipes(ValidationPipe)
   @UseGuards(LocalAuthGuard)
@@ -52,7 +51,6 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   googleLoginCallback(@Request() req, @Response() res) {
-    // handles the Google OAuth2 callback
 
     const jwt: string = req.user.jwt;
     if (jwt) res.redirect('http://localhost:3000/api/' + jwt);
