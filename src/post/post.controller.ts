@@ -35,12 +35,16 @@ export class PostController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto,@Request() req) {
-    return this.postService.update(+id, updatePostDto,+req.user.id);
+  update(
+    @Param('id') id: string,
+    @Body() updatePostDto: UpdatePostDto,
+    @Request() req,
+  ) {
+    return this.postService.update(+id, updatePostDto, +req.user.id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string,@Request() req) {
-    return this.postService.remove(+id,req.user.id);
+  remove(@Param('id') id: string, @Request() req) {
+    return this.postService.remove(+id, req.user.id);
   }
 }

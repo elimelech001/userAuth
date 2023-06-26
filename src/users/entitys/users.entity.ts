@@ -68,7 +68,7 @@ export class User {
   address: Address | null;
 
   @JoinColumn()
-  @OneToMany(() => Todos, (todos) => todos.user,{cascade:true})
+  @OneToMany(() => Todos, (todos) => todos.user, {cascade: true})
   todos: Todos[];
 
   @OneToMany(() => Post, (post) => post.user)
