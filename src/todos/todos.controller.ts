@@ -54,8 +54,8 @@ export class TodosController {
   })
   @ApiResponse({status: 404, description: 'Todo not found'})
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todosService.update(+id, updateTodoDto);
+  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto,@Request() req) {
+    return this.todosService.update(+id, updateTodoDto,req.user.id);
   }
 
   @ApiOperation({summary: 'Delete a specific todo by ID'})
@@ -65,7 +65,7 @@ export class TodosController {
   })
   @ApiResponse({status: 404, description: 'Todo not found'})
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todosService.remove(+id);
+  remove(@Param('id') id: string,@Request() req) {
+    return this.todosService.remove(+id,req.user.id);
   }
 }
